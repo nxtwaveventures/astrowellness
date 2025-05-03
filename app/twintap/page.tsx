@@ -4,90 +4,100 @@ import React, { useState, useEffect } from "react";
 import Link from 'next/link';
 import Head from 'next/head';
 
-const fetchProfiles = async (count = 5) => {
-    const res = await fetch(`https://randomuser.me/api/?results=${count}`);
-    const data = await res.json();
-    return data.results.map((user: any) => ({
-        name: `${user.name.first} ${user.name.last}`,
-        image: user.picture.large,
-        tagline: "Astro match awaits!",
-    }));
-};
+interface Profile {
+    picture: { large: string };
+    name: { first: string; last: string };
+    email: string;
+}
 
 export default function Twintap() {
-    const [profiles, setProfiles] = useState<any[]>([]);
-    const [cardIndex, setCardIndex] = useState(0);
+    const [profiles, setProfiles] = useState<Profile[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        fetchProfiles(6).then(setProfiles);
+        const fetchProfiles = async () => {
+            const response = await fetch('https://randomuser.me/api/?results=10');
+            const data = await response.json();
+            setProfiles(data.results);
+        };
+        fetchProfiles();
     }, []);
 
-    const nextCard = () => setCardIndex((i) => Math.min(i + 1, profiles.length - 1));
-    const prevCard = () => setCardIndex((i) => Math.max(i - 1, 0));
+    const nextCard = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % profiles.length);
+    };
+
+    const prevCard = () => {
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + profiles.length) % profiles.length);
+    };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white via-gray-100 to-white">
+        <div className="min-h-screen bg-gradient-to-br from-sky-300 via-pink-100 via-yellow-100 to-orange-200 relative">
             <Head>
                 <title>Twintap – Connect by the stars</title>
                 <meta name="description" content="Twintap: Connect by the stars—friends, flames, and more. Astrology-based dating and friendship for Gen Z." />
             </Head>
-            <h1 className="text-4xl font-bold mb-4 text-center font-playfair">Twintap</h1>
-            <p className="mb-8 text-lg text-forest-700 text-center">Swipe the cards for your daily cosmic experience!</p>
-            <div className="w-full max-w-xs flex flex-col items-center relative min-h-[420px]">
-                {profiles[cardIndex] ? (
-                    <div className="bg-white rounded-2xl shadow-xl p-0 flex flex-col items-center text-center w-80 h-96 overflow-hidden border border-gray-200">
-                        <img
-                            src={profiles[cardIndex].image}
-                            alt={profiles[cardIndex].name}
-                            className="w-full h-64 object-cover"
-                        />
-                        <div className="flex-1 flex flex-col justify-center p-4">
-                            <h2 className="text-xl font-bold mb-1">{profiles[cardIndex].name}</h2>
-                            <p className="text-gray-500 text-sm">{profiles[cardIndex].tagline}</p>
-                        </div>
+            {/* Hero Section */}
+            <section className="relative py-32 px-4 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-sky-300/70 via-pink-100/50 via-yellow-100/50 to-orange-200/60 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-[url('/images/peaceful-pattern.png')] opacity-5"></div>
+                <div className="max-w-4xl mx-auto text-center relative z-10">
+                    <h1 className="text-6xl font-playfair text-forest-900 mb-8 leading-tight">
+                        Twintap
+                    </h1>
+                    <p className="text-2xl text-forest-700 mb-12 max-w-3xl mx-auto leading-relaxed">
+                        Connect by the stars—friends, flames, and more.
+                    </p>
+                    <p className="text-lg text-forest-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+                        Twintap is a modern, astrology-powered dating and friendship platform for Gen Z. Find your cosmic match or bestie, guided by the stars.
+                    </p>
+                    <div className="flex justify-center gap-4">
+                        <button className="bg-forest-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-forest-700 transition-all transform hover:scale-105 shadow-lg">
+                            Begin Your Journey
+                        </button>
                     </div>
-                ) : (
-                    <div className="flex flex-col items-center justify-center h-96">
-                        <p className="text-gray-500">No more profiles. Check back soon!</p>
-                    </div>
-                )}
-                <div className="flex justify-between w-full mt-4">
-                    <button
-                        onClick={prevCard}
-                        disabled={cardIndex === 0}
-                        className="px-4 py-2 rounded-full bg-gray-200 text-gray-700 disabled:opacity-50"
-                    >
-                        ←
-                    </button>
-                    <button
-                        onClick={nextCard}
-                        disabled={cardIndex === profiles.length - 1}
-                        className="px-4 py-2 rounded-full bg-gray-200 text-gray-700 disabled:opacity-50"
-                    >
-                        →
-                    </button>
                 </div>
-            </div>
-            <p className="mt-8 text-base text-gray-600">Click arrows to browse profiles.</p>
-            <div className="flex flex-col gap-4 mt-8">
-                <Link
-                    href="/onboarding"
-                    className="inline-block bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 text-white px-8 py-4 rounded-lg text-lg font-bold shadow-lg hover:from-purple-700 hover:via-pink-600 hover:to-yellow-500 transition-colors border-2 border-transparent hover:border-purple-700"
-                    aria-label="Start Your Cosmic Connection"
-                >
-                    Start Your Cosmic Connection
-                </Link>
-                <Link
-                    href="/login"
-                    className="inline-block border-2 border-purple-400 text-purple-700 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-50 transition-colors"
-                    aria-label="Log In to Twintap"
-                >
-                    Log In
-                </Link>
-            </div>
-            <p className="text-sm text-gray-500 mt-4">
-                Safe, inclusive, and fun. <span className="text-pink-500">#CosmicConnections</span>
-            </p>
+            </section>
+
+            {/* Features Section */}
+            <section className="py-20 px-4 bg-gradient-to-b from-sky-300/40 via-pink-100/40 via-yellow-100/40 to-orange-200/40">
+                <div className="max-w-6xl mx-auto">
+                    <h2 className="text-4xl font-playfair text-forest-800 mb-4 text-center">Features</h2>
+                    <ul className="text-lg text-forest-700 mb-16 text-center list-disc list-inside">
+                        <li>Astrology-based onboarding and matching</li>
+                        <li>Profiles with birth chart and interests</li>
+                        <li>Swipe/match for friends or romance</li>
+                        <li>In-app chat with cosmic icebreakers</li>
+                        <li>Viral social sharing</li>
+                        <li>Freemium model with premium features</li>
+                        <li>Built with Next.js, PostgreSQL, Prisma, tRPC, and more.</li>
+                    </ul>
+                </div>
+            </section>
+
+            {/* Card Carousel Section */}
+            <section className="py-20 px-4 relative">
+                <div className="max-w-4xl mx-auto relative z-10">
+                    <h2 className="text-4xl font-playfair text-forest-800 mb-16 text-center">Find Your Cosmic Match</h2>
+                    <div className="flex justify-center items-center gap-4">
+                        <button onClick={prevCard} className="bg-forest-600 text-white px-4 py-2 rounded-full text-lg font-medium hover:bg-forest-700 transition-all">
+                            ←
+                        </button>
+                        {profiles.length > 0 && (
+                            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                                <img src={profiles[currentIndex].picture.large} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4" />
+                                <h3 className="text-2xl font-playfair text-forest-800 mb-4 text-center">{profiles[currentIndex].name.first} {profiles[currentIndex].name.last}</h3>
+                                <p className="text-forest-600 text-lg leading-relaxed text-center">
+                                    {profiles[currentIndex].email}
+                                </p>
+                            </div>
+                        )}
+                        <button onClick={nextCard} className="bg-forest-600 text-white px-4 py-2 rounded-full text-lg font-medium hover:bg-forest-700 transition-all">
+                            →
+                        </button>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 } 
