@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { ThemeToggle } from '../components/ThemeToggle';
 import { FontSizeSelector } from '../components/FontSizeSelector';

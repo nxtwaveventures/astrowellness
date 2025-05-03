@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -95,8 +95,8 @@ export default function SpiritualMarketplace() {
                                     key={category.id}
                                     onClick={() => setSelectedCategory(category.id)}
                                     className={`px-4 py-2 rounded-lg ${selectedCategory === category.id
-                                            ? 'bg-forest-600 text-white'
-                                            : 'bg-white text-forest-600 border border-forest-200'
+                                        ? 'bg-forest-600 text-white'
+                                        : 'bg-white text-forest-600 border border-forest-200'
                                         }`}
                                 >
                                     {category.name}

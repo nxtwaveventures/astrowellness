@@ -1,1 +1,0 @@
-import { userProfileSchema } from '../../../schema'; 

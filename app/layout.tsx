@@ -5,7 +5,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { PersonalizationProvider } from './context/PersonalizationContext';
 import Navigation from './components/Navigation';
 import { metadata } from './metadata';
-import { Providers } from './providers';
+import Providers from './providers';
 import ThemeClientProvider from './components/ThemeClientProvider';
 
 const inter = Inter({
