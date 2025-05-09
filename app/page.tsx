@@ -24,7 +24,7 @@ export default function Home() {
             <span className="text-4xl mb-4">🌱</span>
             <h1 className="text-3xl md:text-4xl font-bold mb-2 font-playfair">New You</h1>
             <p className="mb-6 text-forest-700">Everyday Astro Insights.</p>
-            <Link href="/dashboard" className="bg-forest-600 text-white px-6 py-3 rounded-full font-medium hover:bg-forest-700 transition">Go to Dashboard</Link>
+            <Link href="/dashboard" className="bg-forest-600 text-white px-6 py-3 rounded-full font-medium hover:bg-forest-700 transition">Try self</Link>
           </div>
           {/* Twintap */}
           <div className="bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition">
