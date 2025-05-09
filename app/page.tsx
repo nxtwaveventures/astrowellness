@@ -10,6 +10,12 @@ export default function Home() {
         <title>AstroWellness & Twintap – Connect by the stars</title>
         <meta name="description" content="AstroWellness: Daily transformation and growth. Twintap: Connect by the stars—friends, flames, and more. Astrology-based dating and friendship for Gen Z." />
       </Head>
+      {/* Punchline */}
+      <div className="text-center pt-16 pb-4">
+        <h2 className="text-3xl md:text-4xl font-bold font-playfair text-forest-800">
+          Three Features, Just for You
+        </h2>
+      </div>
       {/* Three Feature Hero Section */}
       <section className="min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-purple-200 via-pink-100 to-yellow-100">
         <div className="max-w-6xl mx-auto w-full py-16 px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
